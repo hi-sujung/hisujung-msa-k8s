@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: member-deployment
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: msa-member
+  template:
+    metadata:
+      labels:
+        app: msa-member
+    spec: 
+      containers:
+      - name: msa-member
+        image: jekim12/msa-member:latest
+        ports:
+        - containerPort: 8080
+        env: 
+        - name: MYSQL_URL
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: url
+        - name: MYSQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: username      
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        - name: REDIS_HOST
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: host
+        - name: REDIS_PORT
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: port
+        - name: EMAIL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: email-secret
+              key: username
+        - name: EMAIL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: email-secret
+              key: password 
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: member-service
+spec: 
+  selector:
+    app: msa-member
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: NodePort

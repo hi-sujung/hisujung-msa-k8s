@@ -3,7 +3,7 @@ addEventListener('fetch', event => {
   })
   
   async function handleRequest(request) {
-    const SLACK_WEBHOOK_URL = '{SLACK_WEBHOOK_URL}';
+    const SLACK_WEBHOOK_URL = 'HISUJUNG_SLACK_WEBHOOK_URL';
   
     try {
       // 요청의 정보를 수집

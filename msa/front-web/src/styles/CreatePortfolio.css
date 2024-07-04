@@ -1,0 +1,67 @@
+.container {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+  }
+  
+  .homeButton {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 24px;
+    color: rgba(74, 85, 162, 1);
+  }
+  
+  .headerTitle {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .main {
+    padding-top: 20px;
+  }
+  
+  .infoLabel {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .infoInput, .bigInfoInput {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: rgba(226, 208, 248, 0.3);
+  }
+  
+  .bigInfoInput {
+    height: 100px;
+    resize: none;
+  }
+  
+  .saveButton {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .saveButtonText {
+    background-color: #4A55A2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  

@@ -1,0 +1,106 @@
+.container {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+  
+  .home-button {
+    background-color: #4A55A2;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  
+  .main {
+    padding: 20px;
+  }
+  
+  .portfolioInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .portfolioName {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .editButton {
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+  }
+  
+  .editButtonText {
+    color: #4A55A2;
+    font-weight: bold;
+  }
+  
+  .deleteButton {
+    position: absolute;
+    bottom: 300px; /* 아래 여백 */
+    right: 20px; /* 오른쪽 여백 */
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  .deleteButtonText {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .name {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .infoLabel {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .infoInput {
+    background-color: rgba(226, 208, 248, 0.3);
+    border-radius: 10px;
+    padding: 8px 15px;
+    margin-bottom: 10px;
+  }
+  
+  .bigInfoInput {
+    background-color: rgba(226, 208, 248, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 30px;
+    text-align-vertical: top;
+  }
+  
+  .saveButton {
+    height: 70px;
+    border-radius: 20px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    align-self: center;
+    width: 60%;
+    position: relative;
+  }
+  
+  .saveButtonText {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  

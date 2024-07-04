@@ -1,0 +1,11 @@
+# msa-notice ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notice-config
+data:
+  RABBITMQ_URL: 
+  RABBITMQ_PORT: 
+  UNIV_RECOMMENDATION_URL: 
+  EXTERNAL_RECOMMENDATION_URL: 
+  PORTFOLIO_MS: 

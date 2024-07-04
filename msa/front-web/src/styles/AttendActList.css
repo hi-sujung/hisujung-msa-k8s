@@ -1,0 +1,130 @@
+.container {
+    flex: 1;
+  }
+  
+  .linearGradient {
+    border-bottom-width: 1px;
+    border-bottom-color: white;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+  }
+  
+  .homeButton {
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+  }
+  
+  .headerTitle {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  .main {
+    flex: 1;
+    padding: 20px;
+    padding-top: 20px;
+    background-color: white;
+  }
+  
+  .navButtonPlus {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 0px 15px;
+    margin-right: 10px;
+    margin-bottom: 13px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .navButtonTextPlus {
+    color: blue;
+    font-weight: bold;
+  }
+  
+  .activityItem {
+    background-color: rgba(226, 208, 248, 0.3);
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .activityDetails {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .activityCategory {
+    font-weight: bold;
+    color: rgba(74, 85, 162, 1);
+  }
+  
+  .activityItemTitle {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .modalContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modalView {
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    align-items: center;
+  }
+  
+  .modalText {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .modalInput {
+    width: 100%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .modalButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .modalButton {
+    background-color: blue;
+    border-radius: 5px;
+    padding: 10px;
+    align-items: center;
+    flex: 1;
+    margin: 5px;
+  }
+  
+  .modalButtonText {
+    color: white;
+    font-weight: bold;
+  }
+  

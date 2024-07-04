@@ -1,0 +1,30 @@
+# msa-crawling-external CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: msa-crawling-external
+spec:
+  schedule: "0 8 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: msa-crawling-external
+            image: hyezis/msa-crawling-external:latest
+            env:
+            - name: RABBITMQ_HOST
+              value: k8s-rabbitmq
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_DEFAULT_USER
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_DEFAULT_PASS
+          restartPolicy: OnFailure
+          imagePullSecrets:
+          - name: regcred

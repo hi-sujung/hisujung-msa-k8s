@@ -1,0 +1,13 @@
+# msa-recommend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommend-service
+spec:
+  type: ClusterIP
+  selector:
+    app: msa-recommend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000

@@ -1,0 +1,22 @@
+# msa-recommend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msa-recommend
+  template:
+    metadata:
+      labels:
+        app: msa-recommend
+    spec:
+      containers:
+      - name: msa-recommend
+        image: hyezis/msa-recommend:latest
+        ports:
+        - containerPort: 5000
+      imagePullSecrets:
+      - name: regcred

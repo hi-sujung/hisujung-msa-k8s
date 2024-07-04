@@ -1,0 +1,39 @@
+.container {
+    padding: 20px;
+  }
+  
+  .linearGradient {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .main {
+    margin-top: 20px;
+  }
+  
+  .activityList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .activityItem {
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .activityItemTitle {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  

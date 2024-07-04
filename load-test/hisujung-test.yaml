@@ -1,0 +1,456 @@
+#######################################################
+### app: k8s-rabbitmq-pvc
+# k8s-rabbitmq PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: k8s-rabbitmq-pvc
+  labels:
+    app: k8s-rabbitmq-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+---
+# k8s-rabbitmq Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-rabbitmq
+  labels:
+    app: k8s-rabbitmq
+spec:
+  type: LoadBalancer # 대시보드 접근용
+  ports:
+  - port: 5672
+    name: amqp
+  - port: 15672
+    name: management
+  selector:
+    app: k8s-rabbitmq
+---
+### app: k8s-rabbitmq
+# k8s-rabbitmq StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: k8s-rabbitmq
+spec:
+  replicas: 1
+  serviceName: k8s-rabbitmq
+  selector:
+    matchLabels:
+      app: k8s-rabbitmq
+  template:
+    metadata:
+      labels:
+        app: k8s-rabbitmq
+    spec:
+      containers:
+      - name: k8s-rabbitmq
+        image: rabbitmq:3-management
+        ports:
+        - containerPort: 5672
+          name: amqp
+        - containerPort: 15672
+          name: management
+        env:
+        - name: RABBITMQ_DEFAULT_USER
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: RABBITMQ_DEFAULT_USER
+        - name: RABBITMQ_DEFAULT_PASS
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: RABBITMQ_DEFAULT_PASS
+        volumeMounts:
+        - mountPath: /var/lib/rabbitmq
+          name: rabbitmq-data
+        livenessProbe:
+            httpGet:
+              path: /
+              port: 15672
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 10
+      volumes:
+        - name: rabbitmq-data
+          persistentVolumeClaim:
+            claimName: k8s-rabbitmq-pvc
+---
+#######################################################
+### msa-crawling-external
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: msa-crawling-external
+spec:
+  schedule: "0 8 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: msa-crawling-external
+            image: hyezis/msa-crawling-external:latest
+            env:
+            - name: RABBITMQ_HOST
+              value: k8s-rabbitmq
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_DEFAULT_USER
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_DEFAULT_PASS
+          restartPolicy: OnFailure
+          imagePullSecrets:
+          - name: regcred
+---
+### msa-crawling-univ
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: msa-crawling-univ
+spec:
+  schedule: "0 8 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: msa-crawling-univ
+            image: hyezis/msa-crawling-univ:latest
+            env:
+            - name: RABBITMQ_HOST
+              value: k8s-rabbitmq
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_DEFAULT_USER
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_DEFAULT_PASS
+          restartPolicy: OnFailure
+          imagePullSecrets:
+          - name: regcred
+---
+#######################################################
+### app: msa-member
+# msa-member Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: member-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msa-member
+  template:
+    metadata:
+      labels:
+        app: msa-member
+    spec:
+      containers:
+      - name: msa-member
+        image: suhyen/msa-member:v2
+        ports:
+        - containerPort: 8080
+        resources:
+            requests:
+              memory: "128Mi" 
+              cpu: "100m" # 0.1 CPU core 
+        env:
+        - name: MYSQL_URL
+          valueFrom:
+            secretKeyRef:
+              name: member-secret
+              key: mysql-url
+        - name: MYSQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: member-secret
+              key: mysql-username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: member-secret
+              key: mysql-password
+        - name: EMAIL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: member-secret
+              key: email-username
+        - name: EMAIL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: member-secret
+              key: email-password
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: member-secret
+              key: jwt-secret
+---
+# msa-member Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: member-service
+spec:
+  selector:
+    app: msa-member
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
+---
+#######################################################
+### app: msa-notice
+# msa-notice Deployment: notice-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msa-notice
+  template:
+    metadata:
+      labels:
+        app: msa-notice
+    spec:
+      initContainers:
+      - name: wait-for-rabbitmq
+        image: busybox:1.28
+        command: [ 'sh', '-c', 'until nc -z k8s-rabbitmq 5672; do echo waiting for rabbitmq; sleep 2; done;' ]
+      containers:
+      - name: msa-notice
+        image: everyday365/msa-notice:v4
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+            requests:
+              memory: "128Mi" 
+              cpu: "100m" # 0.1 CPU core 
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: DATABASE_URL
+        - name: RABBITMQ_URL
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: RABBITMQ_URL
+        - name: RABBITMQ_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: RABBITMQ_PORT
+        - name: UNIV_RECOMMENDATION_URL
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: UNIV_RECOMMENDATION_URL
+        - name: EXTERNAL_RECOMMENDATION_URL
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: EXTERNAL_RECOMMENDATION_URL
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: DATABASE_USERNAME
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: DATABASE_PASSWORD
+        - name: RABBITMQ_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: RABBITMQ_USERNAME
+        - name: RABBITMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: RABBITMQ_PASSWORD
+        - name: PORTFOLIO_MS
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: PORTFOLIO_MS
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: OPENAI_API_KEY
+---
+# msa-notice Service: notice-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: notice-service
+spec:
+  selector:
+    app: msa-notice
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+---
+#######################################################
+### app: msa-portfolio
+# msa-portfolio Deployment: portfolio-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfolio-deployment
+spec:
+  replicas: 1
+  selector: # 디플로이먼트 제어하의 레플리카셋과 파드를 대응시키기 위해 라벨 사용
+    matchLabels:
+      app: msa-portfolio
+  template: # 파드 템플릿
+    metadata:
+      labels:
+        app: msa-portfolio
+    spec:
+      containers: # 파드 컨테이너의 사양
+      - name: msa-portfolio
+        image: julia2039/msa-portfolio:v4
+        ports:
+          - containerPort: 8080
+        resources:
+            requests:
+              memory: "128Mi" 
+              cpu: "100m" # 0.1 CPU core 
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: url
+          - name: DATABASE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: username
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: password
+---
+# msa-portfolio Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: portfolio-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3001
+      targetPort: 8080
+  selector:
+    app: msa-portfolio
+---
+#######################################################
+### app: msa-recommend
+# msa-recommend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msa-recommend
+  template:
+    metadata:
+      labels:
+        app: msa-recommend
+    spec:
+      containers:
+      - name: msa-recommend
+        image: hyezis/msa-recommend:latest
+        ports:
+        - containerPort: 5000
+      imagePullSecrets:
+      - name: regcred
+---
+# msa-recommend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommend-service
+spec:
+  type: ClusterIP
+  selector:
+    app: msa-recommend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+
+---
+## auth-server##
+###########################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth-container
+          image: everyday365/auth10:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  auth-service
+spec:
+  type: ClusterIP
+  selector:
+    app: auth
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

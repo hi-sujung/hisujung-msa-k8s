@@ -1,0 +1,5 @@
+Dockerfile
+k8s/
+.gitignore
+.git
+/k8s-manifest/

@@ -1,0 +1,103 @@
+.homeLinearGradient {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #E2D0F8, #A0BFE0);
+  }
+  
+  .homeContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .homeOuterBox {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .homeTitle {
+    font-size: 28px;
+    color: black;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 9px;
+    margin-bottom: 20px;
+  }
+  
+  .homeRow {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 10px;
+  }
+  
+  .homeButton {
+    flex: 1;
+    max-width: 45%;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .homeFirstButton {
+    background-color: #CCA1FF;
+  }
+  
+  .homeSecondButton {
+    background-color: #DAD2DE;
+  }
+  
+  .homeThirdButton {
+    background-color: white;
+    border-color: #6A6FB3;
+    color: #6A6FB3;
+  }
+  
+  .homeButtonIcon {
+    margin-bottom: 10px;
+  }
+  
+  .homeChatBotButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #CCA1FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .homeChatBotButtonIcon {
+    margin-right: 5px;
+  }
+  
+  .homeChatBotButtonText {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  

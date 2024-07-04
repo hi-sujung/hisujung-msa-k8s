@@ -1,0 +1,67 @@
+plugins {
+        id 'java'
+        id 'org.springframework.boot' version '3.2.4'
+        id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.hisujung'
+version = '0.0.1-SNAPSHOT'
+
+java {
+        sourceCompatibility = '17'
+}
+
+configurations {
+        compileOnly {
+                extendsFrom annotationProcessor
+        }
+}
+
+repositories {
+        mavenCentral()
+}
+
+dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+        //h2 database
+        runtimeOnly 'com.h2database:h2'
+
+        //spring security
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+
+        //MySQL
+        implementation 'mysql:mysql-connector-java:8.0.23'
+
+        //Mail
+//        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
+//        implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+//        implementation 'javax.mail:javax.mail-api:1.6.2'
+//        implementation 'org.springframework.boot:spring-boot-starter-mail'
+        implementation 'javax.mail:mail:1.4.7'
+        implementation 'org.springframework:spring-context-support:5.3.9'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.3'
+
+        //Redis
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+        // JWT Token
+        implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+        runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+        runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+        useJUnitPlatform()
+}
+ 

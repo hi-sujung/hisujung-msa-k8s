@@ -1,0 +1,16 @@
+# k8s-rabbitmq Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-rabbitmq
+  labels:
+    app: k8s-rabbitmq
+spec:
+  type: LoadBalancer # 대시보드 접근용
+  ports:
+  - port: 5672
+    name: amqp
+  - port: 15672
+    name: management
+  selector:
+    app: k8s-rabbitmq

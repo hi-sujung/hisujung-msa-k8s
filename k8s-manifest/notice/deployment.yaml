@@ -1,0 +1,81 @@
+# msa-notice Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msa-notice
+  template:
+    metadata:
+      labels:
+        app: msa-notice
+    spec:
+      initContainers:
+      - name: wait-for-rabbitmq
+        image: busybox:1.28
+        command: [ 'sh', '-c', 'until nc -z k8s-rabbitmq 5672; do echo waiting for rabbitmq; sleep 2; done;' ]
+      containers:
+      - name: msa-notice
+        image: everyday365/msa-notice:v4
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: DATABASE_URL
+        - name: RABBITMQ_URL
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: RABBITMQ_URL
+        - name: RABBITMQ_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: RABBITMQ_PORT
+        - name: UNIV_RECOMMENDATION_URL
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: UNIV_RECOMMENDATION_URL
+        - name: EXTERNAL_RECOMMENDATION_URL
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: EXTERNAL_RECOMMENDATION_URL
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: DATABASE_USERNAME
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: DATABASE_PASSWORD
+        - name: RABBITMQ_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: RABBITMQ_USERNAME
+        - name: RABBITMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: RABBITMQ_PASSWORD
+        - name: PORTFOLIO_MS
+          valueFrom:
+            configMapKeyRef:
+              name: notice-config
+              key: PORTFOLIO_MS
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: notice-secret
+              key: OPENAI_API_KEY

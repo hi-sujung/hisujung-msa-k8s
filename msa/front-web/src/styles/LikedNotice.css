@@ -1,0 +1,83 @@
+/* styles/Activity.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.linearGradient {
+  background: linear-gradient(135deg, #E2D0F8 0%, #A0BFE0 100%);
+  border-bottom: 1px solid white;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.homeButton {
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.headerTitle {
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+}
+
+.activityItem {
+  background-color: rgba(226, 208, 248, 0.3);
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.button {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+}
+
+.activityDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.activityCategory {
+  font-weight: bold;
+  color: rgba(74, 85, 162, 1);
+}
+
+.activityItemTitle {
+  font-weight: bold;
+  font-size: 16px;
+}

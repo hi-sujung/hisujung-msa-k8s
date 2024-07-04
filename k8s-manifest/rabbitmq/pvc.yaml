@@ -1,0 +1,14 @@
+# k8s-rabbitmq PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: k8s-rabbitmq-pvc
+  labels:
+    app: k8s-rabbitmq-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard

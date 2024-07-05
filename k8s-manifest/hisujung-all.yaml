@@ -1,12 +1,12 @@
 #######################################################
-### app: k8s-rabbitmq-pvc
-# k8s-rabbitmq PVC
+### app: msa-rabbitmq-pvc
+# msa-rabbitmq PVC
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: k8s-rabbitmq-pvc
+  name: msa-rabbitmq-pvc
   labels:
-    app: k8s-rabbitmq-pvc
+    app: msa-rabbitmq-pvc
 spec:
   accessModes:
     - ReadWriteOnce
@@ -15,13 +15,13 @@ spec:
       storage: 10Gi
   storageClassName: standard
 ---
-# k8s-rabbitmq Service
+# msa-rabbitmq Service
 apiVersion: v1
 kind: Service
 metadata:
-  name: k8s-rabbitmq
+  name: msa-rabbitmq
   labels:
-    app: k8s-rabbitmq
+    app: msa-rabbitmq
 spec:
   type: LoadBalancer # 대시보드 접근용
   ports:
@@ -30,27 +30,27 @@ spec:
   - port: 15672
     name: management
   selector:
-    app: k8s-rabbitmq
+    app: msa-rabbitmq
 ---
-### app: k8s-rabbitmq
-# k8s-rabbitmq StatefulSet
+### app: msa-rabbitmq
+# msa-rabbitmq StatefulSet
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: k8s-rabbitmq
+  name: msa-rabbitmq
 spec:
   replicas: 1
-  serviceName: k8s-rabbitmq
+  serviceName: msa-rabbitmq
   selector:
     matchLabels:
-      app: k8s-rabbitmq
+      app: msa-rabbitmq
   template:
     metadata:
       labels:
-        app: k8s-rabbitmq
+        app: msa-rabbitmq
     spec:
       containers:
-      - name: k8s-rabbitmq
+      - name: msa-rabbitmq
         image: rabbitmq:3-management
         ports:
         - containerPort: 5672
@@ -82,7 +82,7 @@ spec:
       volumes:
         - name: rabbitmq-data
           persistentVolumeClaim:
-            claimName: k8s-rabbitmq-pvc
+            claimName: msa-rabbitmq-pvc
 ---
 #######################################################
 ### msa-crawling-external
@@ -101,7 +101,7 @@ spec:
             image: hyezis/msa-crawling-external:latest
             env:
             - name: RABBITMQ_HOST
-              value: k8s-rabbitmq
+              value: msa-rabbitmq
             - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:
@@ -132,7 +132,7 @@ spec:
             image: hyezis/msa-crawling-univ:latest
             env:
             - name: RABBITMQ_HOST
-              value: k8s-rabbitmq
+              value: msa-rabbitmq
             - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:
@@ -186,7 +186,7 @@ spec:
               name: member-secret
               key: mysql-password
         # - name: REDIS_HOST
-        #   value: redis-service  # k8s-redis 서비스의 DNS 이름을 사용
+        #   value: redis-service  # msa-redis 서비스의 DNS 이름을 사용
         # - name: REDIS_PORT
         #   value: "6379"  # Redis 포트
         - name: EMAIL_USERNAME
@@ -239,7 +239,7 @@ spec:
       initContainers:
       - name: wait-for-rabbitmq
         image: busybox:1.28
-        command: [ 'sh', '-c', 'until nc -z k8s-rabbitmq 5672; do echo waiting for rabbitmq; sleep 2; done;' ]
+        command: [ 'sh', '-c', 'until nc -z msa-rabbitmq 5672; do echo waiting for rabbitmq; sleep 2; done;' ]
       containers:
       - name: msa-notice
         image: everyday365/msa-notice:v4

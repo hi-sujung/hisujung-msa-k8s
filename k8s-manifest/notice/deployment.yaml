@@ -16,7 +16,7 @@ spec:
       initContainers:
       - name: wait-for-rabbitmq
         image: busybox:1.28
-        command: [ 'sh', '-c', 'until nc -z k8s-rabbitmq 5672; do echo waiting for rabbitmq; sleep 2; done;' ]
+        command: [ 'sh', '-c', 'until nc -z msa-rabbitmq 5672; do echo waiting for rabbitmq; sleep 2; done;' ]
       containers:
       - name: msa-notice
         image: everyday365/msa-notice:v4

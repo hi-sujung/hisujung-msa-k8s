@@ -1,21 +1,21 @@
-# k8s-rabbitmq StatefulSet
+# msa-rabbitmq StatefulSet
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: k8s-rabbitmq
+  name: msa-rabbitmq
 spec:
   replicas: 1
-  serviceName: k8s-rabbitmq
+  serviceName: msa-rabbitmq
   selector:
     matchLabels:
-      app: k8s-rabbitmq
+      app: msa-rabbitmq
   template:
     metadata:
       labels:
-        app: k8s-rabbitmq
+        app: msa-rabbitmq
     spec:
       containers:
-      - name: k8s-rabbitmq
+      - name: msa-rabbitmq
         image: rabbitmq:3-management
         ports:
         - containerPort: 5672
@@ -47,4 +47,4 @@ spec:
       volumes:
         - name: rabbitmq-data
           persistentVolumeClaim:
-            claimName: k8s-rabbitmq-pvc
+            claimName: msa-rabbitmq-pvc

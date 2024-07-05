@@ -1,10 +1,10 @@
-# k8s-rabbitmq Service
+# msa-rabbitmq Service
 apiVersion: v1
 kind: Service
 metadata:
-  name: k8s-rabbitmq
+  name: msa-rabbitmq
   labels:
-    app: k8s-rabbitmq
+    app: msa-rabbitmq
 spec:
   type: LoadBalancer # 대시보드 접근용
   ports:
@@ -13,4 +13,4 @@ spec:
   - port: 15672
     name: management
   selector:
-    app: k8s-rabbitmq
+    app: msa-rabbitmq

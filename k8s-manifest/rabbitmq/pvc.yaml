@@ -1,10 +1,10 @@
-# k8s-rabbitmq PVC
+# msa-rabbitmq PVC
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: k8s-rabbitmq-pvc
+  name: msa-rabbitmq-pvc
   labels:
-    app: k8s-rabbitmq-pvc
+    app: msa-rabbitmq-pvc
 spec:
   accessModes:
     - ReadWriteOnce

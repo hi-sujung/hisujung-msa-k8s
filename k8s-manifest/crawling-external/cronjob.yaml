@@ -14,7 +14,7 @@ spec:
             image: hyezis/msa-crawling-external:latest
             env:
             - name: RABBITMQ_HOST
-              value: k8s-rabbitmq
+              value: msa-rabbitmq
             - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:

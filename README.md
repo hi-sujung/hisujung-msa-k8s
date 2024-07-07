@@ -10,8 +10,8 @@ about hisujung-msa-k8s
 ├── cloudflare
 │   ├── notification
 │   │     └── slack-gke.js
-│   ├── web
-│   │     └── address.md
+│   └── web
+│         └── address.md
 ├── k8s-manifest
 │   ├── hisujung-all.yaml
 │   ├── hisujung-configmap.yaml

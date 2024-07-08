@@ -43,8 +43,8 @@ about hisujung-msa-k8s
 | 이름                 | 기능                                | k8s 오브젝트                               |
 |---------------------|------------------------------------|------------------------------------------|
 | [auth-jwt](https://github.com/hi-sujung/msa-auth-jwt) |                                    | [Deployment](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/auth-jwt/deployment.yaml), [Service](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/auth-jwt/service.yaml) |
-| [crawling-external](https://github.com/hi-sujung/msa-crawling-external) |                                    | CronJob |
-| [crawling-univ](https://github.com/hi-sujung/msa-crawling-univ) |                                    | CronJob |
+| [crawling-external](https://github.com/hi-sujung/msa-crawling-external) |                                    | [CronJob](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/crawling-external/cronjob.yaml) |
+| [crawling-univ](https://github.com/hi-sujung/msa-crawling-univ) |                                    | [CronJob](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/crawling-univ/cronjob.yaml) |
 | [front-web ](https://github.com/hi-sujung/msa-front-web) |                                    | Deployment, Service |
 | [member](https://github.com/hi-sujung/msa-member) | 회원가입(이메일 인증), 로그인, 로그아웃 | [Deployment](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/member/deployment.yaml), [Secret](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/member/secret.yaml), [Service](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/member/service.yaml) |
 | [notice](https://github.com/hi-sujung/msa-notice) |                                    | ConfigMap, Deployment, Secret, Service |

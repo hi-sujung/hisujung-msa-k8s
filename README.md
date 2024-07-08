@@ -42,15 +42,15 @@ about hisujung-msa-k8s
 ## About microservices
 | 이름                 | 기능                                | k8s 오브젝트                               |
 |---------------------|------------------------------------|------------------------------------------|
-| auth-jwt            |                                    | Deployment, Service                      |
-| crawling-external   |                                    | CronJob                                  |
-| crawling-univ       |                                    | CronJob                                  |
-| front-web           |                                    | Deployment, Service                      |
+| [auth-jwt](https://github.com/hi-sujung/msa-auth-jwt) |                                    | Deployment, Service |
+| [crawling-external](https://github.com/hi-sujung/msa-crawling-external) |                                    | CronJob |
+| [crawling-univ](https://github.com/hi-sujung/msa-crawling-univ) |                                    | CronJob |
+| [front-web ](https://github.com/hi-sujung/msa-front-web) |                                    | Deployment, Service |
 | [member](https://github.com/hi-sujung/msa-member) | 회원가입(이메일 인증), 로그인, 로그아웃 | [Deployment](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/member/deployment.yaml), [Secret](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/member/secret.yaml), [Service](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/member/service.yaml) |
-| notice              |                                    | ConfigMap, Deployment, Secret, Service   |
-| portfolio           |                                    | Deployment, Secret, Service              |
-| rabbitmq            |                                    | PVC, Secret, Service, StatefulSet        |
-| recommend           |                                    | Deployment, Service                      |
+| [notice](https://github.com/hi-sujung/msa-notice) |                                    | ConfigMap, Deployment, Secret, Service |
+| [portfolio](https://github.com/hi-sujung/msa-portfolio) |                                    | Deployment, Secret, Service |
+| [rabbitmq](https://github.com/hi-sujung/msa-rabbitmq) |                                    | PVC, Secret, Service, StatefulSet |
+| [recommend](https://github.com/hi-sujung/msa-recommend) |                                    | Deployment, Service |
 
 
 ## How to start

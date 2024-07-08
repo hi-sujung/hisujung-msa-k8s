@@ -5,15 +5,15 @@ metadata:
   name: portfolio-deployment
 spec:
   replicas: 1
-  selector: # 디플로이먼트 제어하의 레플리카셋과 파드를 대응시키기 위해 라벨 사용
+  selector: 
     matchLabels:
       app: msa-portfolio
-  template: # 파드 템플릿
+  template:
     metadata:
       labels:
         app: msa-portfolio
     spec:
-      containers: # 파드 컨테이너의 사양
+      containers: 
       - name: msa-portfolio
         image: julia2039/msa-portfolio:v7
         ports:

@@ -42,7 +42,7 @@ about hisujung-msa-k8s
 ## About microservices
 | 이름                 | 기능                                | k8s 오브젝트                               |
 |---------------------|------------------------------------|------------------------------------------|
-| [auth-jwt](https://github.com/hi-sujung/msa-auth-jwt) |                                    | Deployment, Service |
+| [auth-jwt](https://github.com/hi-sujung/msa-auth-jwt) |                                    | [Deployment](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/auth-jwt/deployment.yaml), [Service](https://github.com/hi-sujung/hisujung-msa-k8s/blob/main/k8s-manifest/auth-jwt/service.yaml) |
 | [crawling-external](https://github.com/hi-sujung/msa-crawling-external) |                                    | CronJob |
 | [crawling-univ](https://github.com/hi-sujung/msa-crawling-univ) |                                    | CronJob |
 | [front-web ](https://github.com/hi-sujung/msa-front-web) |                                    | Deployment, Service |

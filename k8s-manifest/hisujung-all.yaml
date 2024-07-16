@@ -242,7 +242,7 @@ spec:
         command: [ 'sh', '-c', 'until nc -z msa-rabbitmq 5672; do echo waiting for rabbitmq; sleep 2; done;' ]
       containers:
       - name: msa-notice
-        image: everyday365/msa-notice:v4
+        image: everyday365/msa-notice:24.07.04
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -429,7 +429,7 @@ spec:
     spec:
       containers:
         - name: auth-container
-          image: everyday365/auth10:latest
+          image: everyday365/msa-auth:24.07.04
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

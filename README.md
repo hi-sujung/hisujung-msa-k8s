@@ -1,5 +1,4 @@
 # MSA와 k8s를 통한 하이수정 고도화 프로젝트
-about hisujung-msa-k8s
 
 ## Architecture Diagram
 <img width="700" alt="스크린샷 2024-06-18 오후 9 54 33" src="https://github.com/user-attachments/assets/c4f2ce7a-1b52-4773-b5b2-c5083d372e09">

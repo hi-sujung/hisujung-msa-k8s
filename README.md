@@ -34,6 +34,9 @@
 │   └── recommend
 ├── scripts
 │   └── k8s-script.sh
+├── template
+│   ├── ISSUE_TEMPLATE.md
+│   └── PULL_REQUEST_TEMPLATE.md
 ├── .gitignore
 └── README.md
 ```
